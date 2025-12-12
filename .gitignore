@@ -1,0 +1,48 @@
+# Git ignore file for Ansible project
+
+# Vault password file (NEVER commit this!)
+.vault_password
+**/.vault_password
+
+# SSH keys (NEVER commit private keys!)
+.ssh/
+**/.ssh/id_*
+**/.ssh/*_rsa
+**/.ssh/*_dsa
+**/.ssh/*_ecdsa
+**/.ssh/*_ed25519
+
+# Ansible retry files
+*.retry
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Temporary files
+tmp/
+temp/
+*.tmp

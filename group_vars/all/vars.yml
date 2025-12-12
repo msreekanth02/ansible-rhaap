@@ -1,0 +1,23 @@
+---
+# Non-encrypted variables that reference vault-encrypted values
+# This file works in conjunction with group_vars/all/vault.yml
+
+# SSH connection settings
+ansible_user: "{{ vault_ansible_user }}"
+ansible_ssh_private_key_file: "{{ playbook_dir }}/.ssh/ansible_rsa"
+
+# Become/sudo settings
+ansible_become: true
+ansible_become_method: sudo
+ansible_become_user: root
+ansible_become_password: "{{ vault_ansible_become_password }}"
+
+# Optional: Use password authentication as fallback
+# Uncomment if you want to use password instead of SSH keys
+# ansible_password: "{{ vault_ansible_password }}"
+
+# SSH connection optimization
+ansible_ssh_common_args: "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+
+# Python interpreter (auto-discover to support different Python versions)
+ansible_python_interpreter: auto_silent

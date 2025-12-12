@@ -1,0 +1,40 @@
+---
+# Ansible Inventory
+# Following Ansible best practices with parent-child group hierarchy
+
+all:
+  children:
+    # Automation Controller Group
+    automationcontroller:
+      hosts:
+        controller:
+          ansible_host: 192.168.1.200
+
+    # Execution Nodes (Workers)
+    execution_nodes:
+      hosts:
+        worker01:
+          ansible_host: 192.168.1.197
+        worker02:
+          ansible_host: 192.168.1.11
+        worker03:
+          ansible_host: 192.168.1.12
+        worker04:
+          ansible_host: 192.168.1.14
+        worker05:
+          ansible_host: 192.168.1.199
+        worker06:
+          ansible_host: 192.168.1.206
+        # worker07:  # TEMPORARILY DISABLED - SSH connection reset issue
+        #   ansible_host: 192.168.1.198
+        worker08:
+          ansible_host: 192.168.1.194
+        worker09:
+          ansible_host: 192.168.1.195
+        worker10:
+          ansible_host: 192.168.1.196
+        worker11:
+          ansible_host: 192.168.1.201
+        worker12:
+          ansible_host: 192.168.1.178  
+        

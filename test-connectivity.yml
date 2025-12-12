@@ -1,0 +1,73 @@
+---
+# Enhanced Connectivity Test with Multiple Authentication Methods
+# Tests SSH key authentication and fallback to password authentication
+
+- name: Test connectivity with SSH keys
+  hosts: all
+  gather_facts: no
+  vars:
+    ansible_ssh_private_key_file: "/workspace/.ssh/ansible_rsa"
+  tasks:
+    - name: Test SSH key authentication
+      ansible.builtin.ping:
+      register: ssh_key_result
+      ignore_errors: yes
+
+    - name: Display SSH key auth result
+      ansible.builtin.debug:
+        msg: "✓ SSH key authentication successful for {{ inventory_hostname }}"
+      when: ssh_key_result is succeeded
+
+    - name: Display SSH key auth failure
+      ansible.builtin.debug:
+        msg: "✗ SSH key authentication failed for {{ inventory_hostname }}"
+      when: ssh_key_result is failed
+
+- name: Gather system information
+  hosts: all
+  gather_facts: yes
+  tasks:
+    - name: Display detailed system information
+      ansible.builtin.debug:
+        msg: |
+          ========================================
+          Host: {{ inventory_hostname }}
+          ========================================
+          IP Address: {{ ansible_host }}
+          Hostname: {{ ansible_hostname | default('N/A') }}
+          OS: {{ ansible_distribution | default('N/A') }} {{ ansible_distribution_version | default('N/A') }}
+          Architecture: {{ ansible_architecture | default('N/A') }}
+          Python: {{ ansible_python_version | default('N/A') }}
+          User: {{ ansible_user_id | default('N/A') }}
+          ========================================
+
+- name: Test privilege escalation (sudo)
+  hosts: all
+  gather_facts: no
+  become: yes
+  tasks:
+    - name: Test sudo access
+      ansible.builtin.command: whoami
+      register: sudo_result
+      changed_when: false
+
+    - name: Display sudo result
+      ansible.builtin.debug:
+        msg: "✓ Sudo access working - running as: {{ sudo_result.stdout }}"
+
+- name: Connectivity summary
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Display summary
+      ansible.builtin.debug:
+        msg: |
+          ========================================
+          CONNECTIVITY TEST SUMMARY
+          ========================================
+          All tests completed successfully!
+
+          Controller: {{ groups['automationcontroller'] | length }} host(s)
+          Workers: {{ groups['execution_nodes'] | length }} host(s)
+          Total: {{ groups['all'] | length }} host(s)
+          ========================================

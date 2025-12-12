@@ -1,0 +1,30 @@
+{
+    "name": "Ansible DevContainer",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "redhat.ansible",
+                "redhat.vscode-yaml"
+            ],
+            "settings": {
+                "ansible.python.interpreterPath": "/usr/local/bin/python",
+                "files.associations": {
+                    "*.yml": "ansible"
+                }
+            }
+        }
+    },
+    "mounts": [
+        "source=${localWorkspaceFolder}/.ssh,target=/workspace/.ssh,type=bind,consistency=cached"
+    ],
+    "postCreateCommand": "chmod +x /workspace/scripts/*.sh && ansible --version && ansible-galaxy collection install ansible.posix",
+    "features": {
+        "ghcr.io/devcontainers/features/sshd:1": {
+            "version": "latest"
+        }
+    },
+    "remoteUser": "root"
+}
