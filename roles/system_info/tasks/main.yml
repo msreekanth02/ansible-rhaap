@@ -61,7 +61,31 @@
   delegate_to: controller
   when: system_info_generate_report | bool
 
-- name: Add to summary list
-  ansible.builtin.set_fact:
-    all_systems_info: "{{ all_systems_info | default([]) + [system_info] }}"
-  when: system_info_collect_summary | bool
+- name: Find all generated report files on controller
+  ansible.builtin.find:
+    paths: "{{ system_info_report_path }}"
+    patterns: "*_system_report.txt"
+  delegate_to: controller
+  run_once: true
+  register: report_files
+  when: system_info_generate_report | bool
+
+- name: Read all report files on controller
+  ansible.builtin.slurp:
+    src: "{{ item.path }}"
+  delegate_to: controller
+  run_once: true
+  loop: "{{ report_files.files }}"
+  register: report_contents
+  when: system_info_generate_report | bool and report_files.matched > 0
+
+- name: Generate consolidated HTML report on controller
+  ansible.builtin.template:
+    src: consolidated_html.j2
+    dest: "{{ system_info_report_path }}/infrastructure_report.html"
+    mode: '0644'
+  delegate_to: controller
+  run_once: true
+  vars:
+    reports: "{{ report_contents.results }}"
+  when: system_info_generate_report | bool and report_files.matched > 0
