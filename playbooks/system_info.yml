@@ -1,0 +1,13 @@
+---
+- name: Collect system information from all hosts
+  hosts: all
+  gather_facts: true
+  become: false
+
+  roles:
+    - role: system_info
+      vars:
+        system_info_report_path: "/tmp/ansible-reports"
+        system_info_display: true
+        system_info_generate_report: true
+        system_info_collect_summary: false

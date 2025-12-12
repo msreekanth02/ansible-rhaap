@@ -1,0 +1,17 @@
+---
+# Default variables for system_info role
+
+# Display system info in console
+system_info_display: true
+
+# Generate individual report files
+system_info_generate_report: true
+
+# Path to store reports
+system_info_report_path: "./reports"
+
+# Collect summary for all hosts
+system_info_collect_summary: true
+
+# Generate consolidated summary report
+system_info_generate_summary: true

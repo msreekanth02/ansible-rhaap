@@ -1,0 +1,18 @@
+---
+# Ping Role - Test connectivity to hosts
+# This role performs a simple ping test and displays the result
+
+- name: Test connectivity using ping module
+  ansible.builtin.ping:
+  register: ping_result
+
+- name: Display ping result
+  ansible.builtin.debug:
+    msg: "✓ Host {{ inventory_hostname }} ({{ ansible_host }}) is reachable - pong received!"
+  when: ping_result is success
+
+- name: Set ping success fact
+  ansible.builtin.set_fact:
+    ping_status: "success"
+    ping_timestamp: "{{ ansible_date_time.iso8601 }}"
+  when: ping_result is success

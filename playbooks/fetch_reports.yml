@@ -1,0 +1,29 @@
+---
+- name: Fetch system reports from controller to local machine
+  hosts: controller
+  gather_facts: false
+  become: false
+
+  tasks:
+    - name: Fetch all reports from controller
+      ansible.builtin.fetch:
+        src: "/tmp/ansible-reports/{{ item }}_system_report.txt"
+        dest: "{{ playbook_dir }}/../reports/{{ item }}_system_report.txt"
+        flat: yes
+      loop:
+        - controller
+        - worker01
+        - worker02
+        - worker03
+        - worker04
+        - worker05
+        - worker06
+        - worker08
+        - worker09
+        - worker10
+        - worker11
+        - worker12
+
+    - name: Display success message
+      ansible.builtin.debug:
+        msg: "✅ All reports fetched successfully to {{ playbook_dir }}/../reports/"

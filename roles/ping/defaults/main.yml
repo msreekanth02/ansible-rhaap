@@ -1,0 +1,3 @@
+---
+# Default variables for ping role
+ping_display_result: true

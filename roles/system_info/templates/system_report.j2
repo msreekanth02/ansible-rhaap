@@ -1,0 +1,36 @@
+================================================================================
+SYSTEM INFORMATION REPORT
+================================================================================
+Generated: {{ ansible_date_time.iso8601 }}
+
+HOST INFORMATION
+--------------------------------------------------------------------------------
+Hostname:           {{ system_info.hostname }}
+IP Address:         {{ system_info.ip_address }}
+Default IPv4:       {{ system_info.default_ipv4 }}
+FQDN:               {{ system_info.fqdn }}
+
+OPERATING SYSTEM
+--------------------------------------------------------------------------------
+OS Distribution:    {{ system_info.os_distribution }}
+OS Version:         {{ system_info.os_version }}
+OS Family:          {{ system_info.os_family }}
+Kernel Version:     {{ system_info.kernel_version }}
+Architecture:       {{ system_info.architecture }}
+
+HARDWARE
+--------------------------------------------------------------------------------
+CPU Cores:          {{ system_info.processor_cores }}
+Total Memory:       {{ system_info.memory_total_mb }} MB
+
+SOFTWARE
+--------------------------------------------------------------------------------
+Python Version:     {{ system_info.python_version }}
+
+UPTIME
+--------------------------------------------------------------------------------
+Uptime (seconds):   {{ system_info.uptime_seconds }}
+
+================================================================================
+End of Report
+================================================================================

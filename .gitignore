@@ -46,3 +46,11 @@ Thumbs.db
 tmp/
 temp/
 *.tmp
+
+# Generated reports
+reports/
+*.txt
+
+# Generated reports
+reports/
+*.txt

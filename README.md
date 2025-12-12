@@ -82,6 +82,37 @@ vault_ansible_become_password: your_sudo_password  # Sudo password
 ansible-playbook test-connectivity.yml
 ```
 
+## 🎭 Available Playbooks & Roles
+
+This platform includes **custom roles** for common infrastructure tasks:
+
+### Quick Commands
+```bash
+# Test connectivity to all hosts
+ansible-playbook playbooks/ping.yml
+
+# Collect system information and generate reports
+ansible-playbook playbooks/system_info.yml
+
+# Fetch reports from controller to local machine
+ansible-playbook playbooks/fetch_reports.yml
+```
+
+### Custom Roles
+
+#### 1. **Ping Role** - Connectivity Testing
+- Tests SSH connectivity to all managed hosts
+- Displays success indicators
+- Quick health check
+
+#### 2. **System Info Role** - Infrastructure Inventory
+- Collects: OS, kernel, Python version, CPU, memory, uptime
+- Generates detailed text reports
+- Reports stored on controller at `/tmp/ansible-reports/`
+- Fetch to local machine with `fetch_reports.yml`
+
+📚 **For detailed documentation**, see [PLAYBOOKS_AND_ROLES.md](PLAYBOOKS_AND_ROLES.md)
+
 ## 📁 Project Structure
 
 ```
@@ -93,7 +124,14 @@ ansible-rhaap/
 │   └── all/
 │       ├── vars.yml        # Non-encrypted variables (Python auto-discovery, SSH settings)
 │       └── vault.yml       # Encrypted credentials
-├── roles/                  # Custom Ansible roles (empty - ready for your automation)
+├── playbooks/              # Custom playbooks
+│   ├── ping.yml           # Connectivity testing
+│   ├── system_info.yml    # System information collection
+│   └── fetch_reports.yml  # Fetch reports from controller
+├── reports/                # Generated system reports (gitignored)
+├── roles/                  # Custom Ansible roles
+│   ├── ping/              # Connectivity testing role
+│   └── system_info/       # System information collection role
 ├── scripts/
 │   ├── first-time-setup.sh        # Main setup script
 │   ├── setup-ssh-keys.sh          # SSH key generation
@@ -104,6 +142,7 @@ ansible-rhaap/
 ├── ansible.cfg             # Ansible configuration
 ├── inventory.yml           # Host inventory (execution_nodes, automationcontroller)
 ├── test-connectivity.yml   # Connectivity test playbook
+├── PLAYBOOKS_AND_ROLES.md  # Detailed playbook and role documentation
 └── WORKER07_TROUBLESHOOTING.md  # SSH troubleshooting guide
 ```
 
