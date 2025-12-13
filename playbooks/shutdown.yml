@@ -1,0 +1,13 @@
+---
+- name: Gracefully shut down systems
+  hosts: all
+  gather_facts: false
+  become: true
+
+  roles:
+    - role: shutdown
+      vars:
+        shutdown_confirm: true
+        shutdown_delay: 60
+        shutdown_delay_minutes: 1
+        shutdown_message: "System shutdown initiated by Ansible"

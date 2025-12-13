@@ -1,0 +1,13 @@
+---
+- name: Test shutdown role on worker10
+  hosts: worker10
+  gather_facts: false
+  become: true
+
+  roles:
+    - role: shutdown
+      vars:
+        shutdown_confirm: false
+        shutdown_delay: 10
+        shutdown_delay_minutes: 0
+        shutdown_message: "System shutdown initiated by Ansible"

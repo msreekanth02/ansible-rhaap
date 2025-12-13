@@ -1,0 +1,26 @@
+---
+# Default variables for reboot role
+
+# Delay before reboot in seconds
+reboot_delay: 10
+
+# Delay after reboot before Ansible tries to reconnect
+reboot_post_delay: 30
+
+# Maximum time to wait for system to reboot
+reboot_timeout: 600
+
+# Message to display during reboot
+reboot_message: "System reboot initiated by Ansible"
+
+# Command to test if system is back online
+reboot_test_command: "whoami"
+
+# Require confirmation before reboot
+reboot_confirm: true
+
+# Broadcast message to logged-in users
+reboot_broadcast: true
+
+# Cancel a scheduled reboot (set to true to cancel)
+reboot_cancel: false

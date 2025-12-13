@@ -1,0 +1,13 @@
+---
+- name: Test reboot role on worker10
+  hosts: worker10
+  gather_facts: false
+  become: true
+
+  roles:
+    - role: reboot
+      vars:
+        reboot_confirm: false
+        reboot_delay: 5
+        reboot_post_delay: 30
+        reboot_timeout: 600

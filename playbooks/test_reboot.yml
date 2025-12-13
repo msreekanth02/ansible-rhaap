@@ -1,0 +1,14 @@
+---
+- name: Test reboot role on a single worker
+  hosts: worker12
+  gather_facts: false
+  become: true
+
+  roles:
+    - role: reboot
+      vars:
+        reboot_confirm: false  # Skip confirmation for testing
+        reboot_delay: 5
+        reboot_post_delay: 20
+        reboot_timeout: 300
+        reboot_message: "Test reboot by Ansible - system will be back shortly"

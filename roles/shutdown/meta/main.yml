@@ -1,0 +1,18 @@
+---
+galaxy_info:
+  author: Ansible Admin
+  description: Gracefully shut down Linux systems with confirmation and warnings
+  company: Your Company
+  license: MIT
+  min_ansible_version: "2.9"
+  platforms:
+    - name: EL
+      versions:
+        - 8
+        - 9
+        - 10
+    - name: Fedora
+      versions:
+        - all
+
+dependencies: []

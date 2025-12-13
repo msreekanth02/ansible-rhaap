@@ -1,0 +1,40 @@
+---
+# Reboot Role - Gracefully reboot systems and wait for them to come back online
+
+- name: Display reboot warning
+  ansible.builtin.debug:
+    msg: "⚠️  WARNING: {{ inventory_hostname }} will be rebooted in {{ reboot_delay }} seconds!"
+  when: reboot_confirm | bool
+
+- name: Confirm reboot action
+  ansible.builtin.pause:
+    prompt: "Press ENTER to continue with reboot of {{ inventory_hostname }}, or Ctrl+C to cancel"
+  when: reboot_confirm | bool
+  run_once: false
+
+- name: Broadcast reboot message to logged-in users
+  ansible.builtin.command: wall "System will reboot in {{ reboot_delay }} seconds. Please save your work!"
+  become: true
+  ignore_errors: true
+  when: reboot_broadcast | bool
+
+- name: Reboot the system
+  ansible.builtin.reboot:
+    msg: "{{ reboot_message }}"
+    pre_reboot_delay: "{{ reboot_delay }}"
+    post_reboot_delay: "{{ reboot_post_delay }}"
+    reboot_timeout: "{{ reboot_timeout }}"
+    test_command: "{{ reboot_test_command }}"
+  become: true
+  when: not reboot_cancel | bool
+
+- name: Display reboot status
+  ansible.builtin.debug:
+    msg: "✅ {{ inventory_hostname }} has been rebooted successfully and is now online!"
+  when: not reboot_cancel | bool
+
+- name: Cancel scheduled reboot
+  ansible.builtin.command: shutdown -c
+  become: true
+  when: reboot_cancel | bool
+  ignore_errors: true

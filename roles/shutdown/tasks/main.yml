@@ -1,0 +1,38 @@
+---
+# Shutdown Role - Gracefully shut down systems
+
+- name: Display shutdown warning
+  ansible.builtin.debug:
+    msg: "⚠️  WARNING: {{ inventory_hostname }} will be shut down in {{ shutdown_delay }} seconds!"
+  when: shutdown_confirm | bool
+
+- name: Confirm shutdown action
+  ansible.builtin.pause:
+    prompt: "Press ENTER to continue with shutdown of {{ inventory_hostname }}, or Ctrl+C to cancel"
+  when: shutdown_confirm | bool
+  run_once: false
+
+- name: Broadcast shutdown message to logged-in users
+  ansible.builtin.command: wall "System will shut down in {{ shutdown_delay }} seconds. Please save your work!"
+  become: true
+  ignore_errors: true
+  when: shutdown_broadcast | bool
+
+- name: Shut down the system
+  ansible.builtin.command: shutdown -h +{{ shutdown_delay_minutes }} "{{ shutdown_message }}"
+  become: true
+  async: 1
+  poll: 0
+  register: shutdown_result
+  when: not shutdown_cancel | bool
+
+- name: Display shutdown status
+  ansible.builtin.debug:
+    msg: "✅ Shutdown initiated on {{ inventory_hostname }} - System will power off in {{ shutdown_delay }} seconds"
+  when: not shutdown_cancel | bool
+
+- name: Cancel scheduled shutdown
+  ansible.builtin.command: shutdown -c
+  become: true
+  when: shutdown_cancel | bool
+  ignore_errors: true

@@ -1,0 +1,13 @@
+---
+- name: Gracefully reboot systems
+  hosts: all
+  gather_facts: false
+  become: true
+
+  roles:
+    - role: reboot
+      vars:
+        reboot_confirm: true
+        reboot_delay: 10
+        reboot_post_delay: 30
+        reboot_timeout: 600

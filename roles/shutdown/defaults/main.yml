@@ -1,0 +1,20 @@
+---
+# Default variables for shutdown role
+
+# Delay before shutdown in seconds
+shutdown_delay: 60
+
+# Delay in minutes (for shutdown command)
+shutdown_delay_minutes: 1
+
+# Message to display during shutdown
+shutdown_message: "System shutdown initiated by Ansible"
+
+# Require confirmation before shutdown
+shutdown_confirm: true
+
+# Broadcast message to logged-in users
+shutdown_broadcast: true
+
+# Cancel a scheduled shutdown (set to true to cancel)
+shutdown_cancel: false
